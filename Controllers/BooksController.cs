@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFavBookApp.Data;
 using MyFavBookApp.Models;
-
+using Microsoft.AspNetCore.Authorization;
 namespace MyFavBookApp.Controllers
 {
     public class BooksController : Controller
@@ -44,6 +44,9 @@ namespace MyFavBookApp.Controllers
         }
 
         // GET: Books/Create
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +69,8 @@ namespace MyFavBookApp.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize]
+    
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +91,7 @@ namespace MyFavBookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("id,title,author,publicationYear,description,url")] Book book)
         {
             if (id != book.id)
@@ -117,6 +123,7 @@ namespace MyFavBookApp.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +144,7 @@ namespace MyFavBookApp.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var book = await _context.Book.FindAsync(id);
