@@ -153,5 +153,23 @@ namespace MyFavBookApp.Controllers
         {
             return _context.Book.Any(e => e.id == id);
         }
+
+
+        public async Task<IActionResult> SearchForm()
+        {
+            return View();
+
+        }
+
+        public async Task<IActionResult> SearchResults(string SearchString)
+        {
+            if (_context.Book == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Book'  is null.");
+            }
+            var filteredBooks = await _context.Book.Where(book => book.title.Contains(SearchString) || book.author.Contains(SearchString)).ToListAsync();
+
+            return View("Index",filteredBooks);
+        }
     }
 }
